@@ -7,9 +7,25 @@
 </head>
 <body>
     <input name="cep" id="cep" type="text" />
-    <button onclick="">Consultar Cep</button>
+    <button onclick="ConsultarCEP()">Consultar Cep</button>
+<br/>
+    Endereco: <input type="text" id="endereco"/>
+<br/> 
+    Cidade: <input type="text" id="cidade"/>
+<br/>
+    Estado: <input type="text" id="estado" />
+    <br/>
     <script>
-        var cep = document.getElementById("cep")
+        function ConsultarCEP()
+        {
+            var cep = document.getElementById("cep")
+            let url = "https://viacep.com.br/ws/"+cep.value+"/json/"
+            fetch(url) 
+            .then(resp=> resp.json())
+            .then(dados => {
+                alert(dados.logradouro)
+            })         
+        }
 </script>    
 </body>
 </html>
