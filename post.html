@@ -38,8 +38,33 @@
         }
         function atualizarTabela()
         {
+            var url = "http://localhost/API-AMS/rotas/materias.php"
+            fetch(url)
+            .then(resposta => resposta.json())
+            .then(dados =>{
+                console.log(dados)
 
+                dados.map((valor,indice)=>{
+                   var tr = createElement("tr")
+                   var td_Id = createElement("td")
+                   td_id.innerText = valor.Id
+
+                   var td_Nome = createElement("td")
+                   td_nome.innerText = valor.Nome
+
+                   var td_Diposnivel = creatElement("td")
+                   td_Disponivel.innerText = valor.Disponivel
+
+                    tr.append(td_Id)
+                    tr.append(td_Nome)
+                    tr.append(td_Diposnivel)
+
+                })
+
+            })
         }
+
+        atualizarTabela()
     </script>
 </body>
 </html>
