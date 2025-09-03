@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Acessando materiais</title>
 </head>
 <body>
+    
     <h1>Matérias</h1>
     <h2>Listagem</h2>
     <table>
@@ -14,46 +15,62 @@
             <th>Nome</th>
             <th>Disponivel</th>
         </thead>
-        <tbody id="corpoTabela">
-        
-    </tbody>
-</table>
-<h2> Cadastro de Novas Matérias</h2>
-<label for="materia">Nome da materia</label>
-<input type="text" name="materia" id="materia" />
-<br/>
-<br/>
-<label for="disponivel">disponivel para lecionar?</label>
-<select name="Disponivel" id="disponivel">
-    <option value="1">Sim</option>
-    <option value="0">Não</option>
-</select>
-<br/>
-<br/>
+        <tbody id="corpoTabela" >
+
+        </tbody>
+    </table>
+    <h2>Cadastro de Novas Matérias</h2>
+    <label for="materia">Nome da materia</label>
+    <input type="text" name="materia" id="materia" />
+    <br />
+    <br />
+    <label for="disponivel" >Disponível para lecionar?</label>
+    <select name="Disponivel" id="disponivel">
+        <option value="1">Sim</option>
+        <option value="0">Não</option>
+    </select>
+    <br />
+    <br />
     <button onclick="cadastrar()">Cadastrar</button>
     <script>
         function cadastrar()
         {
-
+            fetch('http://localhost/api-ams/rotas/materias.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                            body: JSON.stringify({
+                                "Materia" : "",
+                                "Disponivel" : ""
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("Resposta da API:", data);
+                        })
+                        .catch(error => {
+                            console.error("Erro ao enviar requisição:", error);
+                        });
         }
         function atualizarTabela()
         {
-            var url = "http://localhost/API-AMS/rotas/materias.php"
+            var url = "http://localhost/api-ams/rotas/materias.php"
             fetch(url)
             .then(resposta => resposta.json())
             .then(dados =>{
                 console.log(dados)
+                dados.map((valor, indice)=>{
+                    var tr = document.createElement("tr")
+                    
+                    var td_Id = document.createElement("td")
+                    td_Id.innerText = valor.Id
 
-                dados.map((valor,indice)=>{
-                   var tr = document.createElement("tr")
-                   var td_Id = document.createElement("td")
-                   td_Id.innerText = valor.Id
+                    var td_Nome = document.createElement("td")
+                    td_Nome.innerText = valor.Materia
 
-                   var td_Nome = document.createElement("td")
-                   td_Nome.innerText = valor.Materia
-
-                   var td_Disponivel = document.createElement("td")
-                   td_Disponivel.innerText = valor.Disponivel
+                    var td_Disponivel = document.createElement("td")
+                    td_Disponivel.innerText = valor.Disponivel
 
                     tr.append(td_Id)
                     tr.append(td_Nome)
@@ -68,6 +85,7 @@
         }
 
         atualizarTabela()
+
     </script>
 </body>
 </html>
