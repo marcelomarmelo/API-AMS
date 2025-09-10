@@ -72,7 +72,7 @@
             .then(dados =>{
                 console.log(dados)
                 var tabela = document.getElementById("corpoTabela")
-                tabela.remove()
+                tabela.innerHTML = "";
                 dados.map((valor,indice)=>{
                     var tr = document.createElement("tr")
                     
@@ -85,9 +85,28 @@
                     var td_Disponivel = document.createElement("td")
                     td_Disponivel.innerText = valor.Disponivel
 
+                    let botaoExcluir = document.createElement("button")
+                    botaoExcluir = innerText = "Excluir"
+                    botaoEditar.addEventListener("click",function(){
+                        fetch("http://localhost/API-AMS/rotas/materias.php",{
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                "Id_Materia": valor.id
+                            })
+                        })
+                        .then(resp => resp.json())
+                        .then(data => {
+
+                        })
+                    })
+
                     tr.append(td_Id)
                     tr.append(td_Nome)
                     tr.append(td_Disponivel)
+                    tr.append(botaoExcluir)
 
                     
                     
